@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Notes Dashboard</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
+    <link th:href="@{/css/styles.css}" rel="stylesheet"/>
+</head>
+<body>
+<div class="page-content container note-has-grid">
+    <ul class="nav nav-pills p-3 bg-white mb-3 rounded-pill align-items-center">
+        <li class="nav-item">
+            <a th:href="@{/api/notes/add}" class="nav-link btn-primary rounded-pill d-flex align-items-center px-3">
+                <span class="d-none d-md-block font-14">Add Note</span>
+            </a>
+        </li>
+    </ul>
+    <div class="tab-content bg-transparent">
+        <div id="note-full-container" class="note-has-grid row">
+            <div th:if="${notes.isEmpty()}" class="col-12 text-center">
+                <div class="empty-notes-message">
+                    <p>No notes currently!</p>
+                </div>
+            </div>
+            <div th:each="note : ${notes}" class="col-md-4 single-note-item all-category">
+                <div class="card card-body">
+                    <span class="side-stick"></span>
+                    <h5 th:text="${note.title}" class="note-title"></h5>
+                    <p class="note-info font-12 text-muted">
+                        <span th:text="${#temporals.format(note.lastUpdatedOn, 'MMM dd, HH:mm')}"
+                              style="font-style: italic;"></span>
+                        <span class="separator"></span>
+                        <em><span th:text="${note.content.length()}"></span> characters</em>
+                    </p>
+                    <div class="note-content">
+                        <p th:text="${note.content}" class="note-inner-content text-muted"></p>
+                    </div>
+                    <div class="d-flex align-items-center">
+                        <a th:href="@{/api/notes/edit/{id}(id=${note.id})}">
+                            <span class="mr-1"><i class="fa fa-pencil edit-note"></i></span>
+                        </a>
+                        <a th:href="@{/api/notes/delete/{id}(id=${note.id})}">
+                            <span class="mr-1"><i class="fa fa-trash remove-note"></i></span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
