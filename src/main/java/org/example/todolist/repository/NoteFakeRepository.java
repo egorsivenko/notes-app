@@ -3,6 +3,7 @@ package org.example.todolist.repository;
 import org.example.todolist.entity.Note;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -29,6 +30,7 @@ public class NoteFakeRepository {
 
     public Note addNote(Note note) {
         note.setId(UUID.randomUUID());
+        note.setLastUpdatedOn(LocalDateTime.now());
         this.notes.add(note);
         return note;
     }
@@ -41,6 +43,7 @@ public class NoteFakeRepository {
                 .findFirst()
                 .ifPresentOrElse(n -> {
                     int index = notes.indexOf(n);
+                    note.setLastUpdatedOn(LocalDateTime.now());
                     notes.set(index, note);
                 }, () -> {
                     throw new NoSuchElementException(String.format(EXC_FORMAT, id));
