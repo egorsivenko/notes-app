@@ -50,7 +50,7 @@ public class NoteController {
         return "redirect:/api/notes/list";
     }
 
-    @GetMapping("/delete/{id}")
+    @PostMapping("/delete/{id}")
     public String deleteNote(@PathVariable("id") UUID id) {
         noteService.deleteById(id);
         return "redirect:/api/notes/list";

@@ -42,9 +42,11 @@
                         <a th:href="@{/api/notes/edit(id=${note.id})}">
                             <span class="mr-1"><i class="fa fa-pencil edit-note"></i></span>
                         </a>
-                        <a th:href="@{/api/notes/delete/{id}(id=${note.id})}">
-                            <span class="mr-1"><i class="fa fa-trash remove-note"></i></span>
-                        </a>
+                        <form th:action="@{/api/notes/delete/{id}(id=${note.id})}" method="POST">
+                            <button type="submit" class="btn btn-link p-0 m-0">
+                                <span class="mr-1"><i class="fa fa-trash remove-note"></i></span>
+                            </button>
+                        </form>
                     </div>
                 </div>
             </div>
