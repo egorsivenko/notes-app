@@ -2,6 +2,7 @@ plugins {
     java
     id("org.springframework.boot") version "3.2.2"
     id("io.spring.dependency-management") version "1.1.4"
+    id("org.flywaydb.flyway") version "10.0.0"
 }
 
 group = "org.example"
@@ -21,6 +22,12 @@ repositories {
     mavenCentral()
 }
 
+buildscript {
+    dependencies {
+        classpath("org.flywaydb:flyway-database-postgresql:10.8.1")
+    }
+}
+
 dependencies {
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
     runtimeOnly("org.postgresql:postgresql")
@@ -33,4 +40,10 @@ dependencies {
 
 tasks.withType<Test> {
     useJUnitPlatform()
+}
+
+flyway {
+    url = "jdbc:postgresql://localhost:5432/todolist"
+    user = "postgres"
+    password = "strong_password"
 }
