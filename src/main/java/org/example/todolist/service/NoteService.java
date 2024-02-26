@@ -13,7 +13,7 @@ public interface NoteService {
 
     Note add(Note note);
 
-    void update(Note note);
+    void update(UUID id, Note note);
 
     void deleteById(UUID id);
 }

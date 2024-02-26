@@ -4,7 +4,11 @@ import org.example.todolist.entity.Note;
 import org.example.todolist.service.NoteService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.UUID;
 
@@ -45,8 +49,8 @@ public class NoteController {
     }
 
     @PostMapping("/edit")
-    public String editNote(@ModelAttribute("note") Note note) {
-        noteService.update(note);
+    public String editNote(@RequestParam("id") UUID id, @ModelAttribute("note") Note note) {
+        noteService.update(id, note);
         return "redirect:/api/notes/list";
     }
 

@@ -24,9 +24,8 @@
             <div class="modal-body">
                 <div class="notes-box">
                     <div class="notes-content">
-                        <form th:action="@{/api/notes/edit}" th:object="${note}" method="POST">
+                        <form th:action="@{/api/notes/edit(id=${note.id})}" th:object="${note}" method="POST">
                             <div class="row">
-                                <input th:field="*{id}" type="hidden"/>
                                 <div class="col-md-12 mb-3">
                                     <div class="note-title">
                                         <label>Note Title</label>

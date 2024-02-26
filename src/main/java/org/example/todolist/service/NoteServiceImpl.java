@@ -35,8 +35,7 @@ public class NoteServiceImpl implements NoteService {
     }
 
     @Override
-    public void update(Note note) {
-        UUID id = note.getId();
+    public void update(UUID id, Note note) {
         checkNoteExistsById(id);
         noteRepository.updateNoteById(id, note.getTitle(), note.getContent());
     }
