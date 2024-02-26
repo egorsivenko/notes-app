@@ -1,17 +1,15 @@
 package org.example.todolist.service;
 
 import org.example.todolist.entity.Note;
+import org.example.todolist.exception.NoteNotFoundException;
 import org.example.todolist.repository.NoteRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.UUID;
 
 @Service
 public class NoteServiceImpl implements NoteService {
-
-    private static final String EXC_FORMAT = "Note with id '%s' does not exist";
 
     private final NoteRepository noteRepository;
 
@@ -28,7 +26,7 @@ public class NoteServiceImpl implements NoteService {
     public Note getById(UUID id) {
         return noteRepository
                 .findById(id)
-                .orElseThrow(() -> new NoSuchElementException(String.format(EXC_FORMAT, id)));
+                .orElseThrow(() -> new NoteNotFoundException(id));
     }
 
     @Override
@@ -51,7 +49,7 @@ public class NoteServiceImpl implements NoteService {
 
     private void checkNoteExistsById(UUID id) {
         if (!noteRepository.existsById(id)) {
-            throw new NoSuchElementException(String.format(EXC_FORMAT, id));
+            throw new NoteNotFoundException(id);
         }
     }
 }
