@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import java.util.UUID;
 
 @Controller
-@RequestMapping("api/notes")
+@RequestMapping("api/V1/notes")
 public class NoteController {
 
     private final NoteService noteService;
@@ -38,7 +38,7 @@ public class NoteController {
     @PostMapping("/add")
     public String addNote(@ModelAttribute("note") Note note) {
         noteService.add(note);
-        return "redirect:/api/notes/list";
+        return "redirect:/api/V1/notes/list";
     }
 
     @GetMapping("/edit")
@@ -51,12 +51,12 @@ public class NoteController {
     @PostMapping("/edit")
     public String editNote(@RequestParam("id") UUID id, @ModelAttribute("note") Note note) {
         noteService.update(id, note);
-        return "redirect:/api/notes/list";
+        return "redirect:/api/V1/notes/list";
     }
 
     @PostMapping("/delete")
     public String deleteNote(@RequestParam("id") UUID id) {
         noteService.deleteById(id);
-        return "redirect:/api/notes/list";
+        return "redirect:/api/V1/notes/list";
     }
 }
