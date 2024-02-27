@@ -30,7 +30,8 @@
                                     <div class="note-title">
                                         <label>Note Title</label>
                                         <input th:field="*{title}" type="text" maxlength="100" required="required"
-                                               class="form-control"
+                                               class="form-control" pattern="^.*\S.*$"
+                                               title="Title cannot contain only whitespaces"
                                                placeholder="Title"/>
                                     </div>
                                 </div>
