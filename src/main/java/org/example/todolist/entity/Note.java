@@ -32,7 +32,7 @@ public class Note {
     @Column(length = 100, nullable = false)
     private String title;
 
-    @Column(length = 500)
+    @Column(length = 500, nullable = false)
     private String content;
 
     @CreationTimestamp(source = SourceType.DB)
