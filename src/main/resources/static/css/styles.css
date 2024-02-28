@@ -34,7 +34,7 @@ body {
     width: 3px;
     height: 35px;
     left: 0;
-    background-color: rgba(82, 95, 127, .5)
+    background-color: rgba(44, 171, 227, .5);
 }
 
 .note-has-grid .single-note-item .category [class*=category-] {
@@ -74,4 +74,8 @@ body {
 textarea {
     resize: none;
     overflow: hidden;
+}
+
+.empty-notes-message {
+    margin-top: 100px;
 }
