@@ -24,7 +24,7 @@
             <div class="modal-body">
                 <div class="notes-box">
                     <div class="notes-content">
-                        <form th:action="@{/api/V1/notes/add}" th:object="${note}" method="POST">
+                        <form th:action="@{/api/V1/notes/add}" th:object="${addNoteForm}" method="POST">
                             <div class="row">
                                 <div class="col-md-12 mb-3">
                                     <div class="note-title">

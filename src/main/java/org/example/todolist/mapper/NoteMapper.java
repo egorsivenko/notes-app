@@ -1,5 +1,7 @@
 package org.example.todolist.mapper;
 
+import org.example.todolist.controller.form.EditNoteForm;
+import org.example.todolist.controller.form.NoteForm;
 import org.example.todolist.controller.request.NoteRequest;
 import org.example.todolist.controller.response.NoteResponse;
 import org.example.todolist.entity.Note;
@@ -10,6 +12,21 @@ import java.util.stream.Collectors;
 
 @Component
 public class NoteMapper {
+
+    public Note toNoteEntity(NoteForm noteForm) {
+        Note note = new Note();
+        note.setTitle(noteForm.getTitle());
+        note.setContent(noteForm.getContent());
+        return note;
+    }
+
+    public EditNoteForm toEditNoteForm(Note note) {
+        EditNoteForm editNoteForm = new EditNoteForm();
+        editNoteForm.setId(note.getId());
+        editNoteForm.setTitle(note.getTitle());
+        editNoteForm.setContent(note.getContent());
+        return editNoteForm;
+    }
 
     public Note toNoteEntity(NoteRequest noteRequest) {
         Note note = new Note();

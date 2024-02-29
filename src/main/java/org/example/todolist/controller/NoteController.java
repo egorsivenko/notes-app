@@ -1,6 +1,9 @@
 package org.example.todolist.controller;
 
+import org.example.todolist.controller.form.AddNoteForm;
+import org.example.todolist.controller.form.EditNoteForm;
 import org.example.todolist.entity.Note;
+import org.example.todolist.mapper.NoteMapper;
 import org.example.todolist.service.NoteService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,9 +20,11 @@ import java.util.UUID;
 public class NoteController {
 
     private final NoteService noteService;
+    private final NoteMapper noteMapper;
 
-    public NoteController(NoteService noteService) {
+    public NoteController(NoteService noteService, NoteMapper noteMapper) {
         this.noteService = noteService;
+        this.noteMapper = noteMapper;
     }
 
     @GetMapping("/list")
@@ -30,27 +35,27 @@ public class NoteController {
 
     @GetMapping("/add")
     public String addNoteForm(Model model) {
-        Note note = new Note();
-        model.addAttribute("note", note);
+        AddNoteForm addNoteForm = new AddNoteForm();
+        model.addAttribute("addNoteForm", addNoteForm);
         return "add_note";
     }
 
     @PostMapping("/add")
-    public String addNote(@ModelAttribute("note") Note note) {
-        noteService.add(note);
+    public String addNote(@ModelAttribute("addNoteForm") AddNoteForm addNoteForm) {
+        noteService.add(noteMapper.toNoteEntity(addNoteForm));
         return "redirect:/api/V1/notes/list";
     }
 
     @GetMapping("/edit")
     public String editNoteForm(@RequestParam("id") UUID id, Model model) {
         Note note = noteService.getById(id);
-        model.addAttribute("note", note);
+        model.addAttribute("editNoteForm", noteMapper.toEditNoteForm(note));
         return "edit_note";
     }
 
     @PostMapping("/edit")
-    public String editNote(@RequestParam("id") UUID id, @ModelAttribute("note") Note note) {
-        noteService.update(id, note);
+    public String editNote(@ModelAttribute("editNoteForm") EditNoteForm editNoteForm) {
+        noteService.update(editNoteForm.getId(), noteMapper.toNoteEntity(editNoteForm));
         return "redirect:/api/V1/notes/list";
     }
 
