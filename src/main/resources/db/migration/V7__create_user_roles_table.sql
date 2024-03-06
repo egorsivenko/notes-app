@@ -1,0 +1,6 @@
+CREATE TABLE user_roles
+(
+    user_id INT REFERENCES users (id) ON UPDATE CASCADE ON DELETE CASCADE,
+    role_id INT REFERENCES roles (id) ON UPDATE CASCADE ON DELETE CASCADE,
+    PRIMARY KEY (user_id, role_id)
+);
