@@ -8,6 +8,8 @@ plugins {
 group = "org.example"
 version = "0.0.1-SNAPSHOT"
 
+val jjwtVersion = "0.12.5"
+
 java {
     sourceCompatibility = JavaVersion.VERSION_17
 }
@@ -30,6 +32,9 @@ buildscript {
 
 dependencies {
     implementation("org.springframework.boot:spring-boot-starter-security")
+    implementation("io.jsonwebtoken:jjwt-api:$jjwtVersion")
+    runtimeOnly("io.jsonwebtoken:jjwt-impl:$jjwtVersion")
+    runtimeOnly("io.jsonwebtoken:jjwt-jackson:$jjwtVersion")
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
     runtimeOnly("org.postgresql:postgresql")
     implementation("org.springframework.boot:spring-boot-starter-web")

@@ -2,6 +2,7 @@ package org.example.todolist.exception.handler;
 
 import jakarta.servlet.http.HttpServletRequest;
 import org.example.todolist.exception.NoteNotFoundException;
+import org.example.todolist.exception.UsernameTakenException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
@@ -40,5 +41,17 @@ public class GlobalExceptionHandler {
                 LocalDateTime.now()
         );
         return new ResponseEntity<>(apiError, HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(UsernameTakenException.class)
+    public ResponseEntity<ApiError> handleUsernameTakenException(
+            UsernameTakenException e, HttpServletRequest request) {
+        ApiError apiError = new ApiError(
+                request.getRequestURI(),
+                e.getMessage(),
+                HttpStatus.BAD_REQUEST.value(),
+                LocalDateTime.now()
+        );
+        return new ResponseEntity<>(apiError, HttpStatus.BAD_REQUEST);
     }
 }
