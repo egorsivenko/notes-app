@@ -36,12 +36,12 @@ public class NoteMapper {
     }
 
     public NoteResponse toNoteResponse(Note note) {
-        NoteResponse noteResponse = new NoteResponse();
-        noteResponse.setId(note.getId());
-        noteResponse.setTitle(note.getTitle());
-        noteResponse.setContent(note.getContent());
-        noteResponse.setLastUpdatedOn(note.getLastUpdatedOn());
-        return noteResponse;
+        return new NoteResponse(
+                note.getId(),
+                note.getTitle(),
+                note.getContent(),
+                note.getLastUpdatedOn()
+        );
     }
 
     public List<NoteResponse> toNoteResponses(List<Note> notes) {
