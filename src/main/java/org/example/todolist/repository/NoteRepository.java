@@ -19,6 +19,6 @@ public interface NoteRepository extends JpaRepository<Note, UUID> {
     @Query("UPDATE Note n SET n.title = :title, n.content = :content WHERE n.id = :id")
     void updateNoteById(@Param("id") UUID id, @Param("title") String title, @Param("content") String content);
 
-    @Query("SELECT n FROM Note n ORDER BY n.createdOn")
-    List<Note> findAllInCreationOrder();
+    @Query("FROM Note n WHERE n.user.username = :username ORDER BY n.createdOn")
+    List<Note> findByUsernameInCreationOrder(@Param("username") String username);
 }
