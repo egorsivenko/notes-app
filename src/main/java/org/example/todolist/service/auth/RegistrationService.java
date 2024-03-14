@@ -1,4 +1,4 @@
-package org.example.todolist.service;
+package org.example.todolist.service.auth;
 
 import org.example.todolist.controller.dto.UserDto;
 import org.example.todolist.entity.Role;
@@ -18,13 +18,15 @@ public class RegistrationService {
     private final RoleRepository roleRepository;
     private final PasswordEncoder passwordEncoder;
 
-    public RegistrationService(UserRepository userRepository, RoleRepository roleRepository, PasswordEncoder passwordEncoder) {
+    public RegistrationService(UserRepository userRepository,
+                               RoleRepository roleRepository,
+                               PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
         this.passwordEncoder = passwordEncoder;
     }
 
-    public void registerUser(UserDto userDto) {
+    public Long registerUser(UserDto userDto) {
         String username = userDto.getUsername();
 
         if (userRepository.existsByUsername(username)) {
@@ -32,6 +34,7 @@ public class RegistrationService {
         }
         User user = buildNewUser(userDto);
         userRepository.save(user);
+        return user.getId();
     }
 
     private User buildNewUser(UserDto userDto) {
