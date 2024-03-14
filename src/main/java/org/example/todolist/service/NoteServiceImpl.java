@@ -4,9 +4,6 @@ import org.example.todolist.entity.Note;
 import org.example.todolist.exception.InsufficientPrivilegesException;
 import org.example.todolist.exception.NoteNotFoundException;
 import org.example.todolist.repository.NoteRepository;
-import org.example.todolist.repository.UserRepository;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -17,69 +14,53 @@ import java.util.UUID;
 public class NoteServiceImpl implements NoteService {
 
     private final NoteRepository noteRepository;
-    private final UserRepository userRepository;
+    private final UserService userService;
 
-    public NoteServiceImpl(NoteRepository noteRepository, UserRepository userRepository) {
+    public NoteServiceImpl(NoteRepository noteRepository, UserService userService) {
         this.noteRepository = noteRepository;
-        this.userRepository = userRepository;
+        this.userService = userService;
     }
 
     @Override
     public List<Note> listAll() {
-        String username = getCurrentUsername();
+        String username = userService.getCurrentUsername();
         return noteRepository.findByUsernameInCreationOrder(username);
     }
 
     @Override
     public Note getById(UUID id) {
-        return verifyNoteExistsAndCanBeAccessed(id);
+        return verifyAndAccessNoteIfExists(id);
     }
 
     @Override
     public Note add(Note note) {
-        String username = getCurrentUsername();
-        note.setUser(userRepository
-                .findByUsername(username)
-                .orElseThrow(() -> new UsernameNotFoundException(username)));
+        String username = userService.getCurrentUsername();
+        note.setUser(userService.getByUsername(username));
         return noteRepository.save(note);
     }
 
     @Override
     public void update(UUID id, Note note) {
-        verifyNoteExistsAndCanBeAccessed(id);
+        verifyAndAccessNoteIfExists(id);
         noteRepository.updateNoteById(id, note.getTitle(), note.getContent());
     }
 
     @Override
     public void deleteById(UUID id) {
-        verifyNoteExistsAndCanBeAccessed(id);
+        verifyAndAccessNoteIfExists(id);
         noteRepository.deleteById(id);
     }
 
-    private Note verifyNoteExistsAndCanBeAccessed(UUID id) {
+    private Note verifyAndAccessNoteIfExists(UUID id) {
         Note note = noteRepository
                 .findById(id)
                 .orElseThrow(() -> new NoteNotFoundException(id));
 
-        String username = getCurrentUsername();
-        if (!isCurrentUserAdmin() && !noteBelongsToUser(note, username)) {
+        String username = userService.getCurrentUsername();
+        if (!userService.isCurrentUserAdmin() && !noteBelongsToUser(note, username)) {
             throw new InsufficientPrivilegesException(username);
         }
         return note;
-    }
-
-    private boolean isCurrentUserAdmin() {
-        return SecurityContextHolder.getContext()
-                .getAuthentication()
-                .getAuthorities()
-                .stream()
-                .anyMatch(authy -> authy.getAuthority().equals("ADMIN"));
-    }
-
-    private String getCurrentUsername() {
-        return SecurityContextHolder.getContext()
-                .getAuthentication()
-                .getName();
     }
 
     private boolean noteBelongsToUser(Note note, String username) {
