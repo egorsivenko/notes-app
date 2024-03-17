@@ -27,35 +27,34 @@ public class NoteService {
     }
 
     public Note getById(UUID id) {
-        return verifyAndAccessNoteIfExists(id);
-    }
-
-    public Note add(Note note) {
-        String username = userService.getCurrentUsername();
-        note.setUser(userService.getByUsername(username));
-        return noteRepository.save(note);
-    }
-
-    public void update(UUID id, Note note) {
-        verifyAndAccessNoteIfExists(id);
-        noteRepository.updateNoteById(id, note.getTitle(), note.getContent());
-    }
-
-    public void deleteById(UUID id) {
-        verifyAndAccessNoteIfExists(id);
-        noteRepository.deleteById(id);
-    }
-
-    private Note verifyAndAccessNoteIfExists(UUID id) {
         Note note = noteRepository
                 .findById(id)
                 .orElseThrow(() -> new NoteNotFoundException(id));
 
         String username = userService.getCurrentUsername();
-        if (!userService.isCurrentUserAdmin() && !noteBelongsToUser(note, username)) {
+        if (userService.isCurrentUserNotAdmin() && !noteBelongsToUser(note, username)) {
             throw new InsufficientPrivilegesException(username);
         }
         return note;
+    }
+
+    public Note add(Note note) {
+        note.setUser(userService.getCurrentUser());
+        return noteRepository.save(note);
+    }
+
+    public Note update(UUID id, Note note) {
+        Note noteById = getById(id);
+        noteById.setTitle(note.getTitle());
+        noteById.setContent(note.getContent());
+        noteById.setCategory(note.getCategory());
+        return noteRepository.save(noteById);
+    }
+
+    public Note deleteById(UUID id) {
+        Note noteById = getById(id);
+        noteRepository.delete(noteById);
+        return noteById;
     }
 
     private boolean noteBelongsToUser(Note note, String username) {

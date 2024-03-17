@@ -37,15 +37,19 @@ public class Note {
     @Column(length = 500, nullable = false)
     private String content;
 
-    @CreationTimestamp(source = SourceType.DB)
-    @Column(name = "created_on", nullable = false)
-    private LocalDateTime createdOn;
-
     @UpdateTimestamp(source = SourceType.DB)
     @Column(name = "last_updated_on", nullable = false)
     private LocalDateTime lastUpdatedOn;
 
+    @CreationTimestamp(source = SourceType.DB)
+    @Column(name = "created_on", nullable = false)
+    private LocalDateTime createdOn;
+
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
+
+    @ManyToOne
+    @JoinColumn(name = "category_id")
+    private Category category;
 }

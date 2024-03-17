@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -36,17 +35,13 @@ public class NoteRestController {
     @GetMapping
     public ResponseEntity<List<NoteResponse>> getAllNotes() {
         List<Note> notes = noteService.listAll();
-        return ResponseEntity
-                .status(HttpStatus.OK)
-                .body(noteMapper.toNoteResponses(notes));
+        return ResponseEntity.ok(noteMapper.toNoteResponses(notes));
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<NoteResponse> getNoteById(@PathVariable("id") UUID id) {
         Note note = noteService.getById(id);
-        return ResponseEntity
-                .status(HttpStatus.OK)
-                .body(noteMapper.toNoteResponse(note));
+        return ResponseEntity.ok(noteMapper.toNoteResponse(note));
     }
 
     @PostMapping
@@ -58,14 +53,16 @@ public class NoteRestController {
     }
 
     @PutMapping("/{id}")
-    @ResponseStatus(HttpStatus.ACCEPTED)
-    public void updateNote(@PathVariable("id") UUID id, @Valid @RequestBody NoteRequest noteRequest) {
-        noteService.update(id, noteMapper.toNoteEntity(noteRequest));
+    public ResponseEntity<NoteResponse> updateNote(@PathVariable("id") UUID id, @Valid @RequestBody NoteRequest noteRequest) {
+        Note updatedNote = noteService.update(id, noteMapper.toNoteEntity(noteRequest));
+        return ResponseEntity
+                .status(HttpStatus.ACCEPTED)
+                .body(noteMapper.toNoteResponse(updatedNote));
     }
 
     @DeleteMapping("/{id}")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteNote(@PathVariable("id") UUID id) {
-        noteService.deleteById(id);
+    public ResponseEntity<NoteResponse> deleteNote(@PathVariable("id") UUID id) {
+        Note deletedNote = noteService.deleteById(id);
+        return ResponseEntity.ok(noteMapper.toNoteResponse(deletedNote));
     }
 }

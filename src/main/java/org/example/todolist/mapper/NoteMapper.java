@@ -5,6 +5,7 @@ import org.example.todolist.controller.form.NoteForm;
 import org.example.todolist.controller.request.NoteRequest;
 import org.example.todolist.controller.response.NoteResponse;
 import org.example.todolist.entity.Note;
+import org.example.todolist.service.CategoryService;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -12,6 +13,14 @@ import java.util.stream.Collectors;
 
 @Component
 public class NoteMapper {
+
+    private final CategoryService categoryService;
+    private final CategoryMapper categoryMapper;
+
+    public NoteMapper(CategoryService categoryService, CategoryMapper categoryMapper) {
+        this.categoryService = categoryService;
+        this.categoryMapper = categoryMapper;
+    }
 
     public Note toNoteEntity(NoteForm noteForm) {
         Note note = new Note();
@@ -32,6 +41,7 @@ public class NoteMapper {
         Note note = new Note();
         note.setTitle(noteRequest.getTitle());
         note.setContent(noteRequest.getContent());
+        note.setCategory(categoryService.getByName(noteRequest.getCategory().getName()));
         return note;
     }
 
@@ -40,7 +50,8 @@ public class NoteMapper {
                 note.getId(),
                 note.getTitle(),
                 note.getContent(),
-                note.getLastUpdatedOn()
+                note.getLastUpdatedOn(),
+                categoryMapper.toCategoryResponse(note.getCategory())
         );
     }
 

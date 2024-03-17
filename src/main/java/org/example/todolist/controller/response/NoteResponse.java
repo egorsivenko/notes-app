@@ -7,5 +7,6 @@ public record NoteResponse(
         UUID id,
         String title,
         String content,
-        LocalDateTime lastUpdatedOn
+        LocalDateTime lastUpdatedOn,
+        CategoryResponse category
 ) {}

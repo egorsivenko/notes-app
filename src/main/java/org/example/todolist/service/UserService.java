@@ -21,17 +21,21 @@ public class UserService {
                 .orElseThrow(() -> new UsernameNotFoundException(username));
     }
 
-    public boolean isCurrentUserAdmin() {
-        return SecurityContextHolder.getContext()
-                .getAuthentication()
-                .getAuthorities()
-                .stream()
-                .anyMatch(authy -> authy.getAuthority().equals("ADMIN"));
+    public User getCurrentUser() {
+        return getByUsername(getCurrentUsername());
     }
 
     public String getCurrentUsername() {
         return SecurityContextHolder.getContext()
                 .getAuthentication()
                 .getName();
+    }
+
+    public boolean isCurrentUserNotAdmin() {
+        return SecurityContextHolder.getContext()
+                .getAuthentication()
+                .getAuthorities()
+                .stream()
+                .noneMatch(authy -> authy.getAuthority().equals("ADMIN"));
     }
 }

@@ -1,0 +1,3 @@
+ALTER TABLE notes
+    ADD COLUMN category_id UUID REFERENCES categories (id)
+        ON UPDATE CASCADE ON DELETE SET NULL;
