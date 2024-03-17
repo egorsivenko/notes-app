@@ -1,6 +1,8 @@
 package org.example.todolist.exception.handler;
 
 import jakarta.servlet.http.HttpServletRequest;
+import org.example.todolist.exception.CategoryNameAlreadyExists;
+import org.example.todolist.exception.CategoryNotFoundException;
 import org.example.todolist.exception.InsufficientPrivilegesException;
 import org.example.todolist.exception.NoteNotFoundException;
 import org.example.todolist.exception.UsernameTakenException;
@@ -33,17 +35,17 @@ public class GlobalExceptionHandler {
         return errors;
     }
 
-    @ExceptionHandler(NoteNotFoundException.class)
+    @ExceptionHandler({NoteNotFoundException.class, CategoryNotFoundException.class})
     public ResponseEntity<ApiError> handleNoteNotFoundException(
-            NoteNotFoundException e, HttpServletRequest request) {
+            RuntimeException e, HttpServletRequest request) {
         HttpStatus status = HttpStatus.NOT_FOUND;
         ApiError apiError = buildApiError(request, e, status);
         return new ResponseEntity<>(apiError, status);
     }
 
-    @ExceptionHandler(UsernameTakenException.class)
+    @ExceptionHandler({UsernameTakenException.class, CategoryNameAlreadyExists.class})
     public ResponseEntity<ApiError> handleUsernameTakenException(
-            UsernameTakenException e, HttpServletRequest request) {
+            RuntimeException e, HttpServletRequest request) {
         HttpStatus status = HttpStatus.BAD_REQUEST;
         ApiError apiError = buildApiError(request, e, status);
         return new ResponseEntity<>(apiError, status);

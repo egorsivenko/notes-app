@@ -46,4 +46,7 @@ public class User {
 
     @OneToMany(mappedBy = "user")
     private Set<Note> notes = new HashSet<>();
+
+    @OneToMany(mappedBy = "user")
+    private Set<Category> categories = new HashSet<>();
 }
