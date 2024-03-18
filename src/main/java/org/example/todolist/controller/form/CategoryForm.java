@@ -11,10 +11,8 @@ import java.util.UUID;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class NoteForm {
+public class CategoryForm {
 
     private UUID id;
-    private String title;
-    private String content;
-    private UUID categoryId;
+    private String name;
 }

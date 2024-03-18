@@ -24,7 +24,7 @@
             <div class="modal-body">
                 <div class="notes-box">
                     <div class="notes-content">
-                        <form th:action="@{/api/V1/notes/add}" th:object="${addNoteForm}" method="POST">
+                        <form th:action="@{/api/V1/notes/add}" th:object="${noteForm}" method="POST">
                             <div class="row">
                                 <div class="col-md-12 mb-3">
                                     <div class="note-title">
@@ -35,12 +35,23 @@
                                                placeholder="Title"/>
                                     </div>
                                 </div>
-                                <div class="col-md-12">
+                                <div class="col-md-12 mb-3">
                                     <div class="note-description">
                                         <label>Note Description</label>
                                         <textarea th:field="*{content}" maxlength="500" class="form-control" rows="5"
                                                   placeholder="Description"
                                                   oninput='this.style.height = "";this.style.height = this.scrollHeight + "px"'></textarea>
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="category">
+                                        <label>Category</label>
+                                        <select name="category" th:field="*{categoryId}"
+                                                class="form-control">
+                                            <option value="">No category</option>
+                                            <option th:each="category : ${categories}" th:value="${category.id}"
+                                                    th:text="${category.name}"></option>
+                                        </select>
                                     </div>
                                 </div>
                             </div>

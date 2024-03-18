@@ -1,6 +1,5 @@
 package org.example.todolist.mapper;
 
-import org.example.todolist.controller.form.EditNoteForm;
 import org.example.todolist.controller.form.NoteForm;
 import org.example.todolist.controller.request.NoteRequest;
 import org.example.todolist.controller.response.NoteResponse;
@@ -26,33 +25,43 @@ public class NoteMapper {
         Note note = new Note();
         note.setTitle(noteForm.getTitle());
         note.setContent(noteForm.getContent());
+        if (noteForm.getCategoryId() != null) {
+            note.setCategory(categoryService.getById(noteForm.getCategoryId()));
+        }
         return note;
     }
 
-    public EditNoteForm toEditNoteForm(Note note) {
-        EditNoteForm editNoteForm = new EditNoteForm();
-        editNoteForm.setId(note.getId());
-        editNoteForm.setTitle(note.getTitle());
-        editNoteForm.setContent(note.getContent());
-        return editNoteForm;
+    public NoteForm toNoteForm(Note note) {
+        NoteForm noteForm = new NoteForm();
+        noteForm.setId(note.getId());
+        noteForm.setTitle(note.getTitle());
+        noteForm.setContent(note.getContent());
+        if (note.getCategory() != null) {
+            noteForm.setCategoryId(note.getCategory().getId());
+        }
+        return noteForm;
     }
 
     public Note toNoteEntity(NoteRequest noteRequest) {
         Note note = new Note();
         note.setTitle(noteRequest.getTitle());
         note.setContent(noteRequest.getContent());
-        note.setCategory(categoryService.getByName(noteRequest.getCategory().getName()));
+        if (noteRequest.getCategoryRequest() != null) {
+            note.setCategory(categoryService.getByName(noteRequest.getCategoryRequest().getName()));
+        }
         return note;
     }
 
     public NoteResponse toNoteResponse(Note note) {
-        return new NoteResponse(
-                note.getId(),
-                note.getTitle(),
-                note.getContent(),
-                note.getLastUpdatedOn(),
-                categoryMapper.toCategoryResponse(note.getCategory())
-        );
+        NoteResponse noteResponse = new NoteResponse();
+        noteResponse.setId(note.getId());
+        noteResponse.setTitle(note.getTitle());
+        noteResponse.setContent(note.getContent());
+        noteResponse.setLastUpdatedOn(note.getLastUpdatedOn());
+        if (note.getCategory() != null) {
+            noteResponse.setCategoryResponse(categoryMapper.toCategoryResponse(note.getCategory()));
+        }
+        return noteResponse;
     }
 
     public List<NoteResponse> toNoteResponses(List<Note> notes) {

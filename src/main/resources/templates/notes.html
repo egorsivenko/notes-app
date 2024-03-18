@@ -21,6 +21,12 @@
                 <span class="d-none d-md-block font-14">Add Note</span>
             </a>
         </li>
+        <li class="nav-item ml-auto">
+            <a th:href="@{/api/V1/categories/list}"
+               class="nav-link btn-primary rounded-pill d-flex align-items-center px-3">
+                <span class="d-none d-md-block font-14">Manage Categories</span>
+            </a>
+        </li>
     </ul>
     <div class="tab-content bg-transparent">
         <div id="note-full-container" class="note-has-grid row">
@@ -44,13 +50,20 @@
                     <div class="note-content">
                         <p th:text="${note.content}" class="note-inner-content text-muted"></p>
                     </div>
-                    <div class="d-flex align-items-center">
-                        <a th:href="@{/api/V1/notes/edit(id=${note.id})}">
-                            <span class="mr-1"><i class="fa fa-pencil edit-note"></i></span>
-                        </a>
-                        <a href="javascript:void(0)" class="delete-note">
-                            <span class="mr-1"><i class="fa fa-trash remove-note"></i></span>
-                        </a>
+                    <div class="d-flex justify-content-between">
+                        <div class="d-flex align-items-center">
+                            <a th:href="@{/api/V1/notes/edit(id=${note.id})}">
+                                <span class="mr-1"><i class="fa fa-pencil edit-note"></i></span>
+                            </a>
+                            <a href="javascript:void(0)" class="delete-note">
+                                <span class="mr-1"><i class="fa fa-trash remove-note"></i></span>
+                            </a>
+                        </div>
+                        <div th:if="${note.category != null}" class="d-flex align-items-center">
+                            <span class="text-muted">-&nbsp;</span>
+                            <span th:text="${note.category.name}" class="text-muted mr-3"
+                                  style="font-style: italic;"></span>
+                        </div>
                     </div>
                 </div>
                 <div class="modal fade delete-note-modal" tabindex="-1" role="dialog" style="display: none;"

@@ -1,5 +1,6 @@
 package org.example.todolist.mapper;
 
+import org.example.todolist.controller.form.CategoryForm;
 import org.example.todolist.controller.request.CategoryRequest;
 import org.example.todolist.controller.response.CategoryResponse;
 import org.example.todolist.entity.Category;
@@ -10,6 +11,19 @@ import java.util.stream.Collectors;
 
 @Component
 public class CategoryMapper {
+
+    public Category toCategoryEntity(CategoryForm categoryForm) {
+        Category category = new Category();
+        category.setName(categoryForm.getName());
+        return category;
+    }
+
+    public CategoryForm toCategoryForm(Category category) {
+        CategoryForm categoryForm = new CategoryForm();
+        categoryForm.setId(category.getId());
+        categoryForm.setName(category.getName());
+        return categoryForm;
+    }
 
     public Category toCategoryEntity(CategoryRequest categoryRequest) {
         Category category = new Category();
