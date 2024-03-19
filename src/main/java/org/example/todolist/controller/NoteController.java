@@ -33,7 +33,7 @@ public class NoteController {
     public String getNotes(Model model) {
         model.addAttribute("notes", noteService.listAll());
         model.addAttribute("categories", categoryService.listAll());
-        return "notes";
+        return "note/notes";
     }
 
     @GetMapping("/add")
@@ -41,7 +41,7 @@ public class NoteController {
         NoteForm noteForm = new NoteForm();
         model.addAttribute("noteForm", noteForm);
         model.addAttribute("categories", categoryService.listAll());
-        return "add_note";
+        return "note/add_note";
     }
 
     @PostMapping("/add")
@@ -55,7 +55,7 @@ public class NoteController {
         Note note = noteService.getById(id);
         model.addAttribute("noteForm", noteMapper.toNoteForm(note));
         model.addAttribute("categories", categoryService.listAll());
-        return "edit_note";
+        return "note/edit_note";
     }
 
     @PostMapping("/edit")

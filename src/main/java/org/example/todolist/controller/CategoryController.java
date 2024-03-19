@@ -30,14 +30,14 @@ public class CategoryController {
     @GetMapping("/list")
     public String listAll(Model model) {
         model.addAttribute("categories", categoryService.listAll());
-        return "categories";
+        return "category/categories";
     }
 
     @GetMapping("/add")
     public String addCategoryForm(Model model) {
         CategoryForm categoryForm = new CategoryForm();
         model.addAttribute("categoryForm", categoryForm);
-        return "add_category";
+        return "category/add_category";
     }
 
     @PostMapping("/add")
@@ -46,7 +46,7 @@ public class CategoryController {
             categoryService.add(categoryMapper.toCategoryEntity(categoryForm));
         } catch (CategoryNameAlreadyExists e) {
             model.addAttribute("error", e.getMessage());
-            return "add_category";
+            return "category/add_category";
         }
         return "redirect:/api/V1/categories/list";
     }
@@ -55,7 +55,7 @@ public class CategoryController {
     public String editCategoryForm(@RequestParam("id") UUID id, Model model) {
         Category category = categoryService.getById(id);
         model.addAttribute("categoryForm", categoryMapper.toCategoryForm(category));
-        return "edit_category";
+        return "category/edit_category";
     }
 
     @PostMapping("/edit")
@@ -64,7 +64,7 @@ public class CategoryController {
             categoryService.update(categoryForm.getId(), categoryForm.getName());
         } catch (CategoryNameAlreadyExists e) {
             model.addAttribute("error", e.getMessage());
-            return "edit_category";
+            return "category/edit_category";
         }
         return "redirect:/api/V1/categories/list";
     }
