@@ -1,5 +1,6 @@
 package org.example.todolist.service;
 
+import org.example.todolist.entity.Category;
 import org.example.todolist.entity.Note;
 import org.example.todolist.exception.InsufficientPrivilegesException;
 import org.example.todolist.exception.NoteNotFoundException;
@@ -15,10 +16,12 @@ public class NoteService {
 
     private final NoteRepository noteRepository;
     private final UserService userService;
+    private final CategoryService categoryService;
 
-    public NoteService(NoteRepository noteRepository, UserService userService) {
+    public NoteService(NoteRepository noteRepository, UserService userService, CategoryService categoryService) {
         this.noteRepository = noteRepository;
         this.userService = userService;
+        this.categoryService = categoryService;
     }
 
     public List<Note> listAll() {
@@ -36,6 +39,11 @@ public class NoteService {
             throw new InsufficientPrivilegesException(username);
         }
         return note;
+    }
+
+    public List<Note> getByCategoryName(String name) {
+        Category category = categoryService.getByName(name);
+        return noteRepository.findByCategory(category);
     }
 
     public Note add(Note note) {

@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -33,6 +34,14 @@ public class NoteController {
     public String getNotes(Model model) {
         model.addAttribute("notes", noteService.listAll());
         model.addAttribute("categories", categoryService.listAll());
+        return "note/notes";
+    }
+
+    @GetMapping("/list/{category}")
+    public String getNotesByCategory(@PathVariable("category") String categoryName, Model model) {
+        model.addAttribute("notes", noteService.getByCategoryName(categoryName));
+        model.addAttribute("categories", categoryService.listAll());
+        model.addAttribute("activeCategory", categoryName);
         return "note/notes";
     }
 
