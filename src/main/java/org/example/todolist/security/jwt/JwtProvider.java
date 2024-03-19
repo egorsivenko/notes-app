@@ -10,7 +10,7 @@ import java.util.Date;
 @Component
 public class JwtProvider {
 
-    private static final int EXPIRATION_TIME = 60 * 60 * 1000;
+    private static final int EXPIRATION_TIME = 30 * 60 * 1000;
     private static final SecretKey SECRET_KEY = Jwts.SIG.HS256.key().build();
 
     public String generateToken(Authentication authentication) {
