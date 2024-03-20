@@ -23,8 +23,8 @@ public class NoteMapper {
 
     public Note toNoteEntity(NoteForm noteForm) {
         Note note = new Note();
-        note.setTitle(noteForm.getTitle());
-        note.setContent(noteForm.getContent());
+        note.setTitle(noteForm.getTitle().strip());
+        note.setContent(noteForm.getContent().strip());
         if (noteForm.getCategoryId() != null) {
             note.setCategory(categoryService.getById(noteForm.getCategoryId()));
         }
@@ -44,8 +44,8 @@ public class NoteMapper {
 
     public Note toNoteEntity(NoteRequest noteRequest) {
         Note note = new Note();
-        note.setTitle(noteRequest.getTitle());
-        note.setContent(noteRequest.getContent());
+        note.setTitle(noteRequest.getTitle().strip());
+        note.setContent(noteRequest.getContent().strip());
         if (noteRequest.getCategoryRequest() != null) {
             note.setCategory(categoryService.getByName(noteRequest.getCategoryRequest().getName()));
         }
