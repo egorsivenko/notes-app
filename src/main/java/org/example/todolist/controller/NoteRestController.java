@@ -38,6 +38,12 @@ public class NoteRestController {
         return ResponseEntity.ok(noteMapper.toNoteResponses(notes));
     }
 
+    @GetMapping("/category/{category}")
+    public ResponseEntity<List<NoteResponse>> getNotesByCategory(@PathVariable("category") String categoryName) {
+        List<Note> notes = noteService.getByCategoryName(categoryName);
+        return ResponseEntity.ok(noteMapper.toNoteResponses(notes));
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<NoteResponse> getNoteById(@PathVariable("id") UUID id) {
         Note note = noteService.getById(id);
