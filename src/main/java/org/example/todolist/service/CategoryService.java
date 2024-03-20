@@ -54,19 +54,21 @@ public class CategoryService {
         return categoryRepository.save(category);
     }
 
-    public void update(UUID id, String name) {
+    public Category update(UUID id, String name) {
         Category category = getById(id);
         if (!Objects.equals(category.getName(), name)) {
             checkIfCategoryWithNameExists(name);
 
             category.setName(name);
-            categoryRepository.save(category);
+            return categoryRepository.save(category);
         }
+        return category;
     }
 
-    public void deleteById(UUID id) {
+    public Category deleteById(UUID id) {
         Category category = getById(id);
         categoryRepository.delete(category);
+        return category;
     }
 
     private void checkIfCategoryWithNameExists(String name) {

@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -54,14 +53,16 @@ public class CategoryRestController {
     }
 
     @PutMapping("/{id}")
-    @ResponseStatus(HttpStatus.ACCEPTED)
-    public void updateCategory(@PathVariable("id") UUID id, @Valid @RequestBody CategoryRequest categoryRequest) {
-        categoryService.update(id, categoryRequest.getName());
+    public ResponseEntity<CategoryResponse> updateCategory(@PathVariable("id") UUID id, @Valid @RequestBody CategoryRequest categoryRequest) {
+        Category updatedCategory = categoryService.update(id, categoryRequest.getName());
+        return ResponseEntity
+                .status(HttpStatus.ACCEPTED)
+                .body(categoryMapper.toCategoryResponse(updatedCategory));
     }
 
     @DeleteMapping("/{id}")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteCategory(@PathVariable("id") UUID id) {
-        categoryService.deleteById(id);
+    public ResponseEntity<CategoryResponse> deleteCategory(@PathVariable("id") UUID id) {
+        Category deletedCategory = categoryService.deleteById(id);
+        return ResponseEntity.ok(categoryMapper.toCategoryResponse(deletedCategory));
     }
 }
