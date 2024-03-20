@@ -24,9 +24,20 @@ public class NoteService {
         this.categoryService = categoryService;
     }
 
-    public List<Note> listAll() {
+    public List<Note> listAll(boolean lastUpdateOrder) {
         String username = userService.getCurrentUsername();
+        if (lastUpdateOrder) {
+            return noteRepository.findByUsernameInLastUpdateOrder(username);
+        }
         return noteRepository.findByUsernameInCreationOrder(username);
+    }
+
+    public List<Note> getByCategoryName(String name, boolean lastUpdateOrder) {
+        Category category = categoryService.getByName(name);
+        if (lastUpdateOrder) {
+            return noteRepository.findByCategoryOrderByLastUpdatedOnDesc(category);
+        }
+        return noteRepository.findByCategoryOrderByCreatedOn(category);
     }
 
     public Note getById(UUID id) {
@@ -39,11 +50,6 @@ public class NoteService {
             throw new InsufficientPrivilegesException(username);
         }
         return note;
-    }
-
-    public List<Note> getByCategoryName(String name) {
-        Category category = categoryService.getByName(name);
-        return noteRepository.findByCategory(category);
     }
 
     public Note add(Note note) {

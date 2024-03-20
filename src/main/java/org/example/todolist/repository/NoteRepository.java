@@ -15,5 +15,10 @@ public interface NoteRepository extends JpaRepository<Note, UUID> {
     @Query("FROM Note n WHERE n.user.username = :username ORDER BY n.createdOn")
     List<Note> findByUsernameInCreationOrder(String username);
 
-    List<Note> findByCategory(Category category);
+    @Query("FROM Note n WHERE n.user.username = :username ORDER BY n.lastUpdatedOn DESC")
+    List<Note> findByUsernameInLastUpdateOrder(String username);
+
+    List<Note> findByCategoryOrderByCreatedOn(Category category);
+
+    List<Note> findByCategoryOrderByLastUpdatedOnDesc(Category category);
 }
