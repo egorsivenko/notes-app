@@ -14,7 +14,7 @@ public class CategoryMapper {
 
     public Category toCategoryEntity(CategoryForm categoryForm) {
         Category category = new Category();
-        category.setName(categoryForm.getName());
+        category.setName(categoryForm.getName().strip());
         return category;
     }
 
@@ -27,7 +27,7 @@ public class CategoryMapper {
 
     public Category toCategoryEntity(CategoryRequest categoryRequest) {
         Category category = new Category();
-        category.setName(categoryRequest.getName());
+        category.setName(categoryRequest.getName().strip());
         return category;
     }
 

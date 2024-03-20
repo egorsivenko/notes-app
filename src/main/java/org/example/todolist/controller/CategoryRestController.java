@@ -54,7 +54,7 @@ public class CategoryRestController {
 
     @PutMapping("/{id}")
     public ResponseEntity<CategoryResponse> updateCategory(@PathVariable("id") UUID id, @Valid @RequestBody CategoryRequest categoryRequest) {
-        Category updatedCategory = categoryService.update(id, categoryRequest.getName());
+        Category updatedCategory = categoryService.update(id, categoryRequest.getName().strip());
         return ResponseEntity
                 .status(HttpStatus.ACCEPTED)
                 .body(categoryMapper.toCategoryResponse(updatedCategory));

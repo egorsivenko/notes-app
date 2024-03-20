@@ -28,7 +28,7 @@ public class CategoryController {
     }
 
     @GetMapping("/list")
-    public String listAll(Model model) {
+    public String getCategories(Model model) {
         model.addAttribute("categories", categoryService.listAll());
         return "category/categories";
     }
@@ -61,7 +61,7 @@ public class CategoryController {
     @PostMapping("/edit")
     public String editCategory(@ModelAttribute("categoryForm") CategoryForm categoryForm, Model model) {
         try {
-            categoryService.update(categoryForm.getId(), categoryForm.getName());
+            categoryService.update(categoryForm.getId(), categoryForm.getName().strip());
         } catch (CategoryNameAlreadyExists e) {
             model.addAttribute("error", e.getMessage());
             return "category/edit_category";
