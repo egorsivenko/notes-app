@@ -31,11 +31,11 @@ public class UserService {
                 .getName();
     }
 
-    public boolean isCurrentUserNotAdmin() {
+    public boolean isCurrentUserAdmin() {
         return SecurityContextHolder.getContext()
                 .getAuthentication()
                 .getAuthorities()
                 .stream()
-                .noneMatch(authy -> authy.getAuthority().equals("ADMIN"));
+                .anyMatch(authy -> authy.getAuthority().equals("ADMIN"));
     }
 }

@@ -32,14 +32,14 @@ public class NoteController {
 
     @GetMapping("/list")
     public String getNotes(Model model) {
-        model.addAttribute("notes", noteService.listAll(true));
+        model.addAttribute("notes", noteService.listAll(false));
         model.addAttribute("categories", categoryService.listAll());
         return "note/notes";
     }
 
     @GetMapping("/list/{category}")
     public String getNotesByCategory(@PathVariable("category") String categoryName, Model model) {
-        model.addAttribute("notes", noteService.getByCategoryName(categoryName, true));
+        model.addAttribute("notes", noteService.getByCategoryName(categoryName));
         model.addAttribute("categories", categoryService.listAll());
         model.addAttribute("activeCategory", categoryName);
         return "note/notes";

@@ -24,20 +24,17 @@ public class NoteService {
         this.categoryService = categoryService;
     }
 
-    public List<Note> listAll(boolean lastUpdateOrder) {
+    public List<Note> listAll(boolean useAdminPrivileges) {
         String username = userService.getCurrentUsername();
-        if (lastUpdateOrder) {
-            return noteRepository.findByUsernameInLastUpdateOrder(username);
+        if (useAdminPrivileges && userService.isCurrentUserAdmin()) {
+            return noteRepository.findAllNotesForAdmin();
         }
-        return noteRepository.findByUsernameInCreationOrder(username);
+        return noteRepository.findByUsernameInLastUpdateOrder(username);
     }
 
-    public List<Note> getByCategoryName(String name, boolean lastUpdateOrder) {
+    public List<Note> getByCategoryName(String name) {
         Category category = categoryService.getByName(name);
-        if (lastUpdateOrder) {
-            return noteRepository.findByCategoryOrderByLastUpdatedOnDesc(category);
-        }
-        return noteRepository.findByCategoryOrderByCreatedOn(category);
+        return noteRepository.findByCategoryInLastUpdateOrder(category);
     }
 
     public Note getById(UUID id) {
@@ -46,7 +43,7 @@ public class NoteService {
                 .orElseThrow(() -> new NoteNotFoundException(id));
 
         String username = userService.getCurrentUsername();
-        if (userService.isCurrentUserNotAdmin() && !noteBelongsToUser(note, username)) {
+        if (!userService.isCurrentUserAdmin() && !noteBelongsToUser(note, username)) {
             throw new InsufficientPrivilegesException(username);
         }
         return note;

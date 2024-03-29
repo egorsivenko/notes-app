@@ -12,7 +12,6 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.SourceType;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -40,10 +39,6 @@ public class Note {
     @UpdateTimestamp(source = SourceType.DB)
     @Column(name = "last_updated_on", nullable = false)
     private LocalDateTime lastUpdatedOn;
-
-    @CreationTimestamp(source = SourceType.DB)
-    @Column(name = "created_on", nullable = false)
-    private LocalDateTime createdOn;
 
     @ManyToOne
     @JoinColumn(name = "user_id")

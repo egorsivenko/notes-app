@@ -34,7 +34,7 @@ public class CategoryService {
                 .orElseThrow(() -> new CategoryNotFoundException(id));
 
         String username = userService.getCurrentUsername();
-        if (userService.isCurrentUserNotAdmin() && !categoryCreatedByUser(category, username)) {
+        if (!userService.isCurrentUserAdmin() && !categoryCreatedByUser(category, username)) {
             throw new InsufficientPrivilegesException(username);
         }
         return category;
@@ -48,7 +48,7 @@ public class CategoryService {
     }
 
     public Category add(Category category) {
-        checkIfCategoryWithNameExists(category.getName());
+        checkIfCategoryNameAlreadyExists(category.getName());
 
         category.setUser(userService.getCurrentUser());
         return categoryRepository.save(category);
@@ -57,7 +57,7 @@ public class CategoryService {
     public Category update(UUID id, String name) {
         Category category = getById(id);
         if (!Objects.equals(category.getName(), name)) {
-            checkIfCategoryWithNameExists(name);
+            checkIfCategoryNameAlreadyExists(name);
 
             category.setName(name);
             return categoryRepository.save(category);
@@ -71,7 +71,7 @@ public class CategoryService {
         return category;
     }
 
-    private void checkIfCategoryWithNameExists(String name) {
+    private void checkIfCategoryNameAlreadyExists(String name) {
         String username = userService.getCurrentUsername();
         Optional<Category> categoryByName = categoryRepository.findByName(name, username);
         if (categoryByName.isPresent()) {

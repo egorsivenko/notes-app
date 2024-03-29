@@ -34,13 +34,13 @@ public class NoteRestController {
 
     @GetMapping
     public ResponseEntity<List<NoteResponse>> getAllNotes() {
-        List<Note> notes = noteService.listAll(false);
+        List<Note> notes = noteService.listAll(true);
         return ResponseEntity.ok(noteMapper.toNoteResponses(notes));
     }
 
     @GetMapping("/category/{category}")
     public ResponseEntity<List<NoteResponse>> getNotesByCategory(@PathVariable("category") String categoryName) {
-        List<Note> notes = noteService.getByCategoryName(categoryName, false);
+        List<Note> notes = noteService.getByCategoryName(categoryName);
         return ResponseEntity.ok(noteMapper.toNoteResponses(notes));
     }
 
