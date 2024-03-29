@@ -2,6 +2,7 @@ package org.example.todolist.service.auth;
 
 import org.example.todolist.controller.dto.UserDto;
 import org.example.todolist.entity.Role;
+import org.example.todolist.entity.RoleName;
 import org.example.todolist.entity.User;
 import org.example.todolist.exception.UsernameTakenException;
 import org.example.todolist.repository.RoleRepository;
@@ -42,7 +43,7 @@ public class RegistrationService {
         user.setUsername(userDto.getUsername());
         user.setPassword(passwordEncoder.encode(userDto.getPassword()));
 
-        Role role = roleRepository.findByName("USER").orElseThrow();
+        Role role = roleRepository.findByName(RoleName.USER.name()).orElseThrow();
         user.setRoles(Collections.singleton(role));
         return user;
     }

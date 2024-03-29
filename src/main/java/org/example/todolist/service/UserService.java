@@ -1,5 +1,6 @@
 package org.example.todolist.service;
 
+import org.example.todolist.entity.RoleName;
 import org.example.todolist.entity.User;
 import org.example.todolist.repository.UserRepository;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -36,6 +37,6 @@ public class UserService {
                 .getAuthentication()
                 .getAuthorities()
                 .stream()
-                .anyMatch(authy -> authy.getAuthority().equals("ADMIN"));
+                .anyMatch(authy -> authy.getAuthority().equals(RoleName.ADMIN.name()));
     }
 }
