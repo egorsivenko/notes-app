@@ -22,4 +22,7 @@ public class NoteResponse {
 
     @JsonProperty("category")
     private CategoryResponse categoryResponse;
+
+    @JsonProperty("user")
+    private UserResponse userResponse;
 }

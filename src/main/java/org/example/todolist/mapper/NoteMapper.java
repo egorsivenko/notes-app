@@ -15,10 +15,12 @@ public class NoteMapper {
 
     private final CategoryService categoryService;
     private final CategoryMapper categoryMapper;
+    private final UserMapper userMapper;
 
-    public NoteMapper(CategoryService categoryService, CategoryMapper categoryMapper) {
+    public NoteMapper(CategoryService categoryService, CategoryMapper categoryMapper, UserMapper userMapper) {
         this.categoryService = categoryService;
         this.categoryMapper = categoryMapper;
+        this.userMapper = userMapper;
     }
 
     public Note toNoteEntity(NoteForm noteForm) {
@@ -58,6 +60,7 @@ public class NoteMapper {
         noteResponse.setTitle(note.getTitle());
         noteResponse.setContent(note.getContent());
         noteResponse.setLastUpdatedOn(note.getLastUpdatedOn());
+        noteResponse.setUserResponse(userMapper.toUserResponse(note.getUser()));
         if (note.getCategory() != null) {
             noteResponse.setCategoryResponse(categoryMapper.toCategoryResponse(note.getCategory()));
         }
