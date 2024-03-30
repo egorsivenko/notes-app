@@ -1,6 +1,6 @@
 package org.example.todolist.controller.response;
 
-public record RegistrationResponse (
+public record AuthResponse(
         String message,
-        Long userId
+        String token
 ) {}
