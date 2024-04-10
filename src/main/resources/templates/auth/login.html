@@ -38,14 +38,14 @@
                                     <span aria-hidden="true">&times;</span>
                                 </button>
                             </div>
-                            <div class="form-group mt-3">
+                            <div class="form-group mt-4">
                                 <input th:field="*{username}" type="text" maxlength="50"
-                                       class="form-control" required/>
+                                       class="form-control" autofocus="autofocus" placeholder="Username" required/>
                                 <label class="form-control-placeholder">Username</label>
                             </div>
-                            <div class="form-group mt-4">
+                            <div class="form-group mt-5">
                                 <input th:field="*{password}" type="password" maxlength="25"
-                                       class="form-control" required id="password-field"/>
+                                       class="form-control" id="password-field" placeholder="Password" required/>
                                 <label class="form-control-placeholder">Password</label>
                                 <span toggle="#password-field"
                                       class="fa fa-fw fa-eye field-icon toggle-password"></span>

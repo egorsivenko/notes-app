@@ -36,7 +36,7 @@ h1, h2, h3, h4, h5, .h1, .h2, .h3, .h4, .h5 {
 }
 
 .ftco-section {
-    padding: 6em 0;
+    padding: 5em 0;
 }
 
 .ftco-no-pt {
@@ -132,14 +132,13 @@ h1, h2, h3, h4, h5, .h1, .h2, .h3, .h4, .h5 {
     opacity: 0.6;
 }
 
-.form-control:focus + .form-control-placeholder, .form-control:valid + .form-control-placeholder {
+.form-control:focus + .form-control-placeholder, .form-control:empty + .form-control-placeholder {
     transform: translate3d(0, -120%, 0);
     padding: 7px 0 0 0;
     opacity: 1;
     text-transform: uppercase;
     font-size: 12px;
     letter-spacing: 1px;
-    color: #00a4ff;
     font-weight: 700;
 }
 
