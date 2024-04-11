@@ -6,7 +6,7 @@ plugins {
 }
 
 group = "org.example"
-version = "0.0.1-SNAPSHOT"
+version = "0.0.1"
 
 val jjwtVersion = "0.12.5"
 
@@ -50,7 +50,7 @@ tasks.withType<Test> {
 }
 
 flyway {
-    url = "jdbc:postgresql://localhost:5432/todolist"
+    url = "jdbc:postgresql://localhost:5432/notes_app"
     user = "postgres"
     password = "strong_password"
 }
