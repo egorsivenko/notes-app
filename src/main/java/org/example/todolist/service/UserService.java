@@ -37,6 +37,6 @@ public class UserService {
                 .getAuthentication()
                 .getAuthorities()
                 .stream()
-                .anyMatch(authy -> authy.getAuthority().equals(RoleName.ADMIN.name()));
+                .anyMatch(authy -> authy.getAuthority().equals(RoleName.ADMIN.toString()));
     }
 }

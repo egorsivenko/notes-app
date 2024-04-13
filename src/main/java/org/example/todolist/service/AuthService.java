@@ -59,7 +59,7 @@ public class AuthService {
         user.setUsername(userDto.getUsername());
         user.setPassword(passwordEncoder.encode(userDto.getPassword()));
 
-        Role role = roleRepository.findByName(RoleName.USER.name()).orElseThrow();
+        Role role = roleRepository.findByName(RoleName.USER).orElseThrow();
         user.setRoles(Collections.singleton(role));
         return user;
     }
