@@ -24,18 +24,13 @@ repositories {
     mavenCentral()
 }
 
-buildscript {
-    dependencies {
-        classpath("org.flywaydb:flyway-database-postgresql:10.8.1")
-    }
-}
-
 dependencies {
     implementation("org.springframework.boot:spring-boot-starter-security")
     implementation("io.jsonwebtoken:jjwt-api:$jjwtVersion")
     runtimeOnly("io.jsonwebtoken:jjwt-impl:$jjwtVersion")
     runtimeOnly("io.jsonwebtoken:jjwt-jackson:$jjwtVersion")
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
+    implementation("org.flywaydb:flyway-core")
     runtimeOnly("org.postgresql:postgresql")
     implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("org.springframework.boot:spring-boot-starter-thymeleaf")
@@ -47,10 +42,4 @@ dependencies {
 
 tasks.withType<Test> {
     useJUnitPlatform()
-}
-
-flyway {
-    url = "jdbc:postgresql://localhost:5432/notes_app"
-    user = "postgres"
-    password = "strong_password"
 }
