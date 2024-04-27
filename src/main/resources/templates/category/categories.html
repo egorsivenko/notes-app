@@ -23,6 +23,14 @@
             <th>Actions</th>
         </tr>
         </thead>
+        <caption>
+            <div th:if="${categories.isEmpty()}" class="col-12 text-center">
+                <div class="empty-notes-message">
+                    <p><i class="fa fa-book fa-3x text-muted"></i></p>
+                    <p>No categories here yet</p>
+                </div>
+            </div>
+        </caption>
         <tbody>
         <tr th:each="category : ${categories}" class="single-category-item">
             <td th:text="${category.name}"></td>
