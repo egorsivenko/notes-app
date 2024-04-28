@@ -36,7 +36,7 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler({NoteNotFoundException.class, CategoryNotFoundException.class})
-    public ResponseEntity<ApiError> handleNoteNotFoundException(
+    public ResponseEntity<ApiError> handleNotFoundExceptions(
             RuntimeException e, HttpServletRequest request) {
         HttpStatus status = HttpStatus.NOT_FOUND;
         ApiError apiError = buildApiError(request, e, status);
@@ -44,7 +44,7 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler({UsernameTakenException.class, CategoryNameAlreadyExists.class})
-    public ResponseEntity<ApiError> handleUsernameTakenException(
+    public ResponseEntity<ApiError> handleBadRequestExceptions(
             RuntimeException e, HttpServletRequest request) {
         HttpStatus status = HttpStatus.BAD_REQUEST;
         ApiError apiError = buildApiError(request, e, status);
