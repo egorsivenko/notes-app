@@ -1,5 +1,7 @@
 package org.example.todolist.controller;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.example.todolist.controller.dto.UserDto;
 import org.example.todolist.controller.response.AuthResponse;
@@ -11,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
+@Tag(name = "Authentication")
 @RequestMapping("api/V2/auth")
 public class AuthRestController {
 
@@ -23,12 +26,14 @@ public class AuthRestController {
         this.authService = authService;
     }
 
+    @Operation(summary = "Login")
     @PostMapping("/login")
     public ResponseEntity<AuthResponse> login(@Valid @RequestBody UserDto userDto) {
         String token = authService.loginUser(userDto);
         return ResponseEntity.ok(new AuthResponse(LOGIN_MESSAGE, token));
     }
 
+    @Operation(summary = "Registration")
     @PostMapping("/register")
     public ResponseEntity<AuthResponse> register(@Valid @RequestBody UserDto userDto) {
         String token = authService.registerUser(userDto);
