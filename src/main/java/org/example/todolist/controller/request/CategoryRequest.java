@@ -14,6 +14,6 @@ import lombok.Setter;
 public class CategoryRequest {
 
     @NotBlank(message = "Category name cannot be null, empty or contain only whitespaces")
-    @Size(max = 255)
+    @Size(max = 25)
     private String name;
 }
